@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+
+{% extends 'store/main.html' %}
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 
 </head>
 <body>
-{% extends 'store/main.html' %}
-{% load static %}
+
 {% block content %}
     <div class="row">
         {% for product in products %}
         <div id="product-box" class="col-lg-4">
-            <img class="thumbnail" src="{{product.imageURL}}">
+            <img class="thumbnail" src="{{product.imageURL}}" href="{% url 'detail' product.id %}">
             <div class="box-element product">
                 <h6><strong>{{product.name}}</strong></h6>
                 <hr>

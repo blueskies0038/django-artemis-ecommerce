@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+{% extends 'store/main.html' %}
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Shopping Cart</title>
 </head>
 <body>
-{% extends 'store/main.html' %}
-{% load static %}
+
 {% block content %}
     <div class="row">
         <div class="col-lg-12">
             <div class="box-element">
-                <a class="btn btn-outline-dark" href="{% url 'store' %}">&#8610; Continue Shopping</a>
+                <a class="btn btn-outline-dark" href="{% url 'all' %}">&#8610; Continue Shopping</a>
                 <br>
                 <br>
 

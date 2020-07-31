@@ -8,7 +8,18 @@ from .utils import cookieCart, cartData, guestOrder
 
 # Create your views here.
 
+
 def store(request):
+    data = cartData(request)
+
+    cartItems = data['cartItems']
+    order = data['order']
+    items = data['items']
+
+    context = {'cartItems': cartItems}
+    return render(request, 'store/store.html', context)
+
+def all(request):
     data = cartData(request)
 
     cartItems = data['cartItems']
@@ -17,8 +28,7 @@ def store(request):
 
     products = Product.objects.all()
     context = {'products': products, 'cartItems': cartItems}
-    return render(request, 'store/store.html', context)
-
+    return render(request, 'store/all.html', context)
 
 def cart(request):
     data = cartData(request)
@@ -72,11 +82,7 @@ def processOrder(request):
     transaction_id = datetime.datetime.now().timestamp()
     data = json.loads(request.body)
 
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    else:
-        customer, order = guestOrder(request, data)
+    customer, order = guestOrder(request, data)
 
     total = float(data['form']['total'])
     order.transaction_id = transaction_id
@@ -103,8 +109,14 @@ def about(request):
 
 
 def detail(request, product_id):
+    data = cartData(request)
+
+    cartItems = data['cartItems']
+    order = data['order']
+    items = data['items']
+
     product = get_object_or_404(Product, pk=product_id)
-    context = {'product': product}
+    context = {'product': product, 'cartItems': cartItems}
     return render(request, 'store/detail.html', context)
 
 
@@ -113,7 +125,3 @@ def slider(request):
     context = {'product': product}
     return render(request, 'store/detail.html', context)
 
-
-from django.shortcuts import render
-
-# Create your views here.

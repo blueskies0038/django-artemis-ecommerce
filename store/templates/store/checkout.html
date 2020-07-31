@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+{% extends 'store/main.html' %}
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Checkout</title>
 </head>
 <body>
-{% extends 'store/main.html' %}
-{% load static %}
+
 {% block content %}
     <div class="row">
 		<div class="col-lg-6">
@@ -138,15 +139,13 @@
 				'zipcode':null,
 			}
 
-	    		shippingInfo.address = form.address.value
-		    	shippingInfo.city = form.city.value
-		    	shippingInfo.state = form.state.value
-		    	shippingInfo.zipcode = form.zipcode.value
+	    	shippingInfo.address = form.address.value
+		   	shippingInfo.city = form.city.value
+		   	shippingInfo.state = form.state.value
+		   	shippingInfo.zipcode = form.zipcode.value
 
-	    	if (user == 'AnonymousUser'){
-	    		userFormData.name = form.name.value
-	    		userFormData.email = form.email.value
-	    	}
+	    	userFormData.name = form.name.value
+	    	userFormData.email = form.email.value
 
 	    	console.log('Shipping Info:', shippingInfo)
 	    	console.log('User Info:', userFormData)
@@ -155,7 +154,7 @@
 	    	fetch(url, {
 	    		method:'POST',
 	    		headers:{
-	    			'Content-Type':'applicaiton/json',
+	    			'Content-Type':'application/json',
 	    			'X-CSRFToken':csrftoken,
 	    		},
 	    		body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}),
@@ -169,7 +168,7 @@
 				cart = {}
 				document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
 
-				window.location.href = "{% url 'store' %}"
+				window.location.href = "{% url 'all' %}"
             })
         }
     </script>
