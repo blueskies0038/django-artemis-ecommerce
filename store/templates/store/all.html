@@ -1,4 +1,5 @@
-
+<!DOCTYPE html>
+<html lang="en">
 {% extends 'store/main.html' %}
 {% load static %}
 <head>
@@ -9,20 +10,23 @@
 <body>
 
 {% block content %}
-    <div class="row">
+
+    <div class="ui three column grid">
         {% for product in products %}
-        <div id="product-box" class="col-lg-4">
-            <img class="thumbnail" src="{{product.imageURL}}" href="{% url 'detail' product.id %}">
-            <div class="box-element product">
-                <h6><strong>{{product.name}}</strong></h6>
-                <hr>
-                <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-                <a class="btn btn-outline-success" href="{% url 'detail' product.id %}">View</a>
-                <h4 style="display: inline-block; float: right"><strong>${{product.price|floatformat:2}}</strong></h4>
+            <div class="column">
+                <div class="ui padded segment">
+                    <img class="thumbnail" src="{{product.imageURL}}">
+                    <h4><strong>{{product.name}}</strong></h4>
+                    <hr>
+                    <button data-product={{product.id}} data-action="add" class="ui primary button add-btn update-cart">Add</button>
+                    <a class="ui blue basic button" href="{% url 'detail' product.id %}">View</a>
+                    <h4><strong>${{product.price|floatformat:2}}</strong></h4>
+                </div>
             </div>
-        </div>
         {% endfor %}
     </div>
+
+
 {% endblock %}
 </body>
 </html>

@@ -102,6 +102,32 @@ def processOrder(request):
 
     return JsonResponse('Payment submitted..', safe=False)
 
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
+
+def success(request, uid):
+    data = json.loads(request.body)
+    customer, order = guestOrder(request, data)
+    username = customer.name
+    useremail = customer.email
+
+    template = render_to_string('base/email.html', {'name': username})
+    email = send_mail(
+        'Shop Artemis Order Confirmation',
+        template,
+        settings.EMAIL_HOST_USER,
+        [useremail],
+        )
+
+    email.fail_silently=False
+    email.send()
+
+    product = Product.objects.get(id=uid)
+    context = {'product':product}
+
+    return render(request, 'store/sent.html', context)
+
 
 def about(request):
     context = {}
