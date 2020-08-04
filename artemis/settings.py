@@ -40,8 +40,6 @@ INSTALLED_APPS = [
 
     'store',
     'aesthetic',
-    'tailwind',
-    'theme',
 ]
 
 MIDDLEWARE = [

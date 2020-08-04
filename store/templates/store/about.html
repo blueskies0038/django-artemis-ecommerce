@@ -9,11 +9,43 @@
 </head>
 <body>
     {% block content %}
-
-    <div class="ui container">
-        About Us
-    </div>
-
+    <p>About Us</p>
     {% endblock %}
 </body>
 </html>
+
+
+<div id="content-wrapper" class="ui container">
+		<div id="checkout-box" class="ui twelve wide column">
+			<div class="ui large form">
+			  <div class="two fields">
+				<div class="field">
+				  <label>Name</label>
+				  <input placeholder="Name" type="text" name="name">
+				</div>
+				<div class="field">
+				  <label>Last Name</label>
+				  <input placeholder="Email" type="email" name="email">
+				</div>
+			  </div>
+			  <div class="ui submit button">Submit</div>
+			</div>
+		</div>
+
+		<div id="checkout-box" class="ui twelve wide column">
+                <a class="btn btn-outline-dark" href="{% url 'cart' %}">&#8610 Back to Cart</a>
+                <hr>
+                <h3>Order Summary</h3>
+                <hr>
+                {% for item in items %}
+                <div class="cart-row">
+                    <div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}"></div>
+                    <div style="flex:2"><p>{{item.product.name}}</p></div>
+                    <div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
+                </div>
+                {% endfor %}
+
+                <h5>Items: {{order.get_cart_items}}</h5>
+                <h5>Total: ${{order.get_cart_total|floatformat:2}}</h5>
+		</div>
+	</div>

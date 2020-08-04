@@ -10,7 +10,7 @@
 {% block content %}
 
     <div id="content-wrapper">
-        <div class="col-lg-6">
+        <div id="detail-box" class="ui six wide column">
             <div id="img-container">
                 <div id="lens"></div>
                 <img id="featured" src="{{product.imageURL}}">
@@ -20,7 +20,7 @@
                 <img id="slideLeft" class="arrow" src="{% static 'images/arrow-left.png' %}">
 
                 <div id="slider">
-                    <img class="selection" src="{{ product.imageURL }}"
+                    <img class="selection" src="{{ product.imageURL }}">
                     {% for image in product.image_set.all %}
                         <img class="selection" src="{{ image.imageURL }}">
                     {% endfor %}
@@ -30,13 +30,13 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <div id="detail-box" class="ui six wide column">
             <h1>{{ product.name }}</h1>
             <hr>
             <h3>${{ product.price|floatformat:2 }}</h3>
 
             <p>{{ product.description }}</p>
-            <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+            <button data-product={{product.id}} data-action="add" class="ui basic button update-cart">Add to Cart</button>
         </div>
     </div>
 

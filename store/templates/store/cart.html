@@ -10,28 +10,14 @@
 
 {% block content %}
 
-    <div class="row">
-        <div class="twelve wide column">
-            <div class="box-element">
-                <a class="ui basic black button" href="{% url 'all' %}">Continue Shopping</a>
-                <br>
-                <br>
-                <table class="table">
-                    <tr>
-                        <th><h5>Items: <strong>{{order.get_cart_items}}</strong></h5></th>
-                        <th><h5>Total: <strong>${{order.get_cart_total|floatformat:2}}</strong></h5></th>
-                        <th>
-                            <a style="float: right; margin: 5px" class="ui basic button" href="{% url 'checkout' %}">Checkout</a>
-                        </th>
-                    </tr>
-                </table>
-            </div>
+    <div id="cart-box" class="row">
+        <h2 class="ui header">Your Cart</h2>
+        <main class="eight wide column">
             <div class="box-element">
                 <div class="cart-row">
                     <div style="flex:1"></div>
                     <div style="flex:2"><strong>Item</strong></div>
                     <div style="flex:1"><strong>Price</strong></div>
-                    <div style="flex:1"><strong></strong></div>
                 </div>
 
                 {% for item in items %}
@@ -39,12 +25,15 @@
                     <div style="flex:1"><img class="row-image" src="{{item.product.imageURL}}"></div>
                     <div style="flex:2">{{item.product.name}}</div>
                     <div style="flex:1">${{item.product.price|floatformat:2}}</div>
-                    <button data-product="{{item.product.id}}" data-action="remove" class="small ui standard button update-cart" type="submit">Remove</button>
+                    <button data-product="{{item.product.id}}" data-action="remove" class="ui icon button update-cart" type="submit"><i class="close icon"></i></button>
                 </div>
                 {% endfor %}
             </div>
-        </div>
+            <h5>Subtotal: <strong>${{order.get_cart_total|floatformat:2}}</strong></h5>
+            <a style="float: right; margin: 5px" class="ui basic button" href="{% url 'checkout' %}">Checkout</a>
+        </main>
     </div>
+
 {% endblock %}
 </body>
 </html>

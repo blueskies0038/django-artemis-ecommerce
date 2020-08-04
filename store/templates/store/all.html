@@ -11,20 +11,21 @@
 
 {% block content %}
 
-    <div class="ui three column grid">
+    <main style="margin-top: 65px" class="ui centered grid container">
         {% for product in products %}
-            <div class="column">
-                <div class="ui padded segment">
-                    <img class="thumbnail" src="{{product.imageURL}}">
+            <div class="five wide column">
+                    <a href="{% url 'detail' product.id %}">
+                        <img class="thumbnail" src="{{product.imageURL}}">
+                    </a>
                     <h4><strong>{{product.name}}</strong></h4>
                     <hr>
-                    <button data-product={{product.id}} data-action="add" class="ui primary button add-btn update-cart">Add</button>
-                    <a class="ui blue basic button" href="{% url 'detail' product.id %}">View</a>
-                    <h4><strong>${{product.price|floatformat:2}}</strong></h4>
-                </div>
+                    <div style="display:flex">
+                        <h4 style="flex:2"><strong>${{product.price|floatformat:2}}</strong></h4>
+                        <button data-product={{product.id}} data-action="add" class="ui primary button add-btn update-cart">Add</button>
+                    </div>
             </div>
         {% endfor %}
-    </div>
+    </main>
 
 
 {% endblock %}
