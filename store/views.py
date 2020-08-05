@@ -48,7 +48,8 @@ def checkout(request):
     order = data['order']
     items = data['items']
 
-    context = {'items': items, 'order': order, 'cartItems': cartItems}
+
+    context = {'items': items, 'order': order, 'cartItems': cartItems,}
     return render(request, 'store/checkout.html', context)
 
 
@@ -67,12 +68,8 @@ def updateItem(request):
 
     if action == 'add':
         orderItem.quantity = 1
+        orderItem.save()
     elif action == 'remove':
-        orderItem.quantity = 0
-
-    orderItem.save()
-
-    if orderItem.quantity <= 0:
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)

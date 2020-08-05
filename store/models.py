@@ -62,6 +62,20 @@ class Order(models.Model):
         return total
 
     @property
+    def get_tax(self):
+        orderitems = self.orderitem_set.all()
+        tax = sum([item.get_total for item in orderitems]) * 0.0875
+        return tax
+
+    @property
+    def get_shipping(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.get_total for item in orderitems])
+        if total > 75:
+            return 0
+        return 7
+
+    @property
     def get_cart_items(self):
         orderitems = self.orderitem_set.all()
         total = sum([item.quantity for item in orderitems])
