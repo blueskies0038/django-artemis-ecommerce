@@ -9,10 +9,10 @@
 <body>
 {% block content %}
 
-    <div id="content-wrapper">
-        <div id="detail-box" class="ui six wide column">
+    <div class="ui container box-container" id="detail-content-wrapper">
+        <div class="detail-box detail-img-box">
             <div id="img-container">
-                <div id="lens"></div>
+                <div class="hidden-content" id="lens"></div>
                 <img id="featured" src="{{product.imageURL}}">
             </div>
 
@@ -30,13 +30,11 @@
             </div>
         </div>
 
-        <div id="detail-box" class="ui six wide column">
-            <h1>{{ product.name }}</h1>
-            <hr>
-            <h3>${{ product.price|floatformat:2 }}</h3>
-
-            <p>{{ product.description }}</p>
-            <button data-product={{product.id}} data-action="add" class="ui basic button update-cart">Add to Cart</button>
+        <div class="detail-box detail-description-box">
+            <span class="product-name" id="detail-product-name">{{ product.name|upper }}</span>
+            <span id="detail-product-price">${{ product.price|floatformat:2 }}</span>
+            <p>{{ product.description|linebreaks }}</p>
+            <button data-product={{product.id}} data-action="add" class="ui basic button update-cart" style="width: 50%">Add to Cart</button>
         </div>
     </div>
 

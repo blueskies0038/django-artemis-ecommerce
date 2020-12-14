@@ -50,7 +50,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_samesite_none.middleware.SameSiteNoneMiddleware',
 ]
+"""    
+'store.middleware.SameSiteMiddleware',
+"""
 
 ROOT_URLCONF = 'artemis.urls'
 
@@ -135,5 +139,13 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'salinaxubusiness@gmail.com'
-EMAIL_HOST_PASSWORD = 'Salinanina123'
+EMAIL_HOST_USER = 'shopartemisonline@gmail.com'
+EMAIL_HOST_PASSWORD = 'jnbhgqstabwwwgmu'
+
+"""
+SESSION_COOKIE_SAMESITE = None
+CSRF_COOKIE_SAMESITE = None
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_SAVE_EVERY_REQUEST = True
+"""

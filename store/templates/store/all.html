@@ -11,21 +11,66 @@
 
 {% block content %}
 
-    <main style="margin-top: 65px" class="ui centered grid container">
-        {% for product in products %}
-            <div class="five wide column">
-                    <a href="{% url 'detail' product.id %}">
-                        <img class="thumbnail" src="{{product.imageURL}}">
-                    </a>
-                    <h4><strong>{{product.name}}</strong></h4>
-                    <hr>
-                    <div style="display:flex">
-                        <h4 style="flex:2"><strong>${{product.price|floatformat:2}}</strong></h4>
-                        <button data-product={{product.id}} data-action="add" class="ui primary button add-btn update-cart">Add</button>
-                    </div>
+    <main class="ui centered container" id="all-product-display" style="margin-top: 75px;">
+        <div class="product-display">
+            {% for product in products.object_list %}
+                <div class="display-box">
+                    {% if product.active %}
+                        <a href="{% url 'detail' product.id %}">
+                            <div class="product-image-display" style="background-image: url({{product.imageURL}});"></div>
+                        </a>
+                        <div class="detail-display">
+                            <div class="product-name-price">
+                                <a href="{% url 'detail' product.id %}" class="product-name">{{product.name|upper}}</a>
+                                <p class="product-price">${{product.price|floatformat:2}}</p>
+                            </div>
+                            <button data-product={{product.id}} data-action="add" class="ui basic black button add-btn update-cart">Add</button>
+                        </div>
+                    {% else %}
+                        <div class="product-image-display" style="background-image: url({{product.imageURL}});">
+                        </div>
+                        <div class="detail-display">
+                            <div class="product-name-price">
+                                <p class="product-name">{{product.name|upper}}</p>
+                                <p class="product-price">${{product.price|floatformat:2}}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="footer">
+            {% if products.has_previous %}
+                <a href="?page={{products.previous_page_number}}"><i class="fas fa-arrow-left fa-md" style="color: black"></i></a>
+            {% endif %}
+
+            <span>{{products.number}} of {{products.paginator.num_pages}}</span>
+
+            {% if products.has_next %}
+                <a href="?page={{products.next_page_number}}"><i class="fas fa-arrow-right fa-md" style="color: black"></i></a>
+            {% endif %}
+        </div>
+    </main>
+
+    <!--<main class="ui centered container" style="margin-top:75px;">
+        <div class="product-display">
+        {% for product in products.object_list %}
+            <div class="display-box">
+                <a href="{% url 'detail' product.id %}">
+                    <div class="thumbnail" style="background-image: url({{product.imageURL}})">
+                </a>
+                <h4><strong>{{product.name}}</strong></h4>
+                <hr>
+                <div style="display:flex">
+                    <h4 style="flex:2"><strong>${{product.price|floatformat:2}}</strong></h4>
+                    <button data-product={{product.id}} data-action="add" class="ui primary button add-btn update-cart">Add</button>
+                </div>
             </div>
         {% endfor %}
-    </main>
+        </div>
+    </main>-->
+
+
 
 
 {% endblock %}

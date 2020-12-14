@@ -1,0 +1,13 @@
+from django.conf import settings
+from django.contrib.sessions.middleware import SessionMiddleware
+
+class SameSiteMiddleware(SessionMiddleware):
+    def process_response(self, request, response):
+        response = super(SameSiteMiddleware, self).process_response(request, response)
+
+        if settings.SESSION_COOKIE_NAME in response.cookies:
+            response.cookies[settings.SESSION_COOKIE_NAME]['samesite'] = 'None'
+        if settings.CSRF_COOKIE_NAME in response.cookies:
+            response.cookies[settings.CSRF_COOKIE_NAME]['samesite'] = 'None'
+
+        return response

@@ -11,7 +11,7 @@ def cookieCart(request):
         print('CART:', cart)
 
     items = []
-    order = {'get_cart_total': 0, 'get_cart_items': 0, 'get_tax': 0, 'get_shipping': 0, 'shipping': False}
+    order = {'get_cart_total': 0, 'get_cart_items': 0, 'get_tax': 0, 'get_shipping': 0}
     cartItems = order['get_cart_items']
 
     for i in cart:
@@ -26,8 +26,9 @@ def cookieCart(request):
             order['get_cart_items'] += cart[i]['quantity']
             order['get_tax'] = order['get_cart_total'] * 0.0875
             order['get_shipping'] = 7
-            if order['get_cart_total'] > 75:
+            if order['get_cart_total'] + order['get_tax'] > 75:
                 order['get_shipping'] = 0
+            order['get_final_amount'] = order['get_cart_total'] + order['get_shipping'] + order['get_tax']
 
 
             item = {
@@ -40,7 +41,13 @@ def cookieCart(request):
         except:
             pass
 
-    return {'cartItems': cartItems, 'order': order, 'items': items}
+        order['get_tax'] = order['get_cart_total'] * 0.0875
+        order['get_shipping'] = 7
+        if order['get_cart_total'] + order['get_tax'] > 75:
+            order['get_shipping'] = 0
+        order['get_final_amount'] = order['get_cart_total'] + order['get_shipping'] + order['get_tax']
+
+    return {'cartItems': cartItems, 'order': order, 'items': items,}
 
 
 def cartData(request):

@@ -7,6 +7,25 @@
     <title>Title</title>
 </head>
 <body>
+    {% block content %}
+
+    <div class="ui container box-container" style="margin-top: 75px">
+        <span id="collection-name">{{collection.name|upper}}</span>
+        <p id="collection-description">{{collection.description}}</p>
+        <div class="collection-display">
+            {% for image in images %}
+                {% if image.featured %}
+                    <a class="collection-grid" style="background-image: url({{image.imageURL}});" href="{% url 'detail' image.id %}">
+                    </a>
+                {% else %}
+                    <a class="collection-grid" style="background-image: url({{image.imageURL}});" href="{{image.imageURL}}">
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    {% endblock %}
 
 </body>
 </html>

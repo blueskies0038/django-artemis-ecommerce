@@ -7,6 +7,29 @@
     <title>Collections</title>
 </head>
 <body>
-    
+
+{% block content %}
+
+    <div class="ui container box-container" style="margin-top: 75px">
+        <div class="collection-display">
+            {% for collection in collections %}
+                <div class="collection-box">
+                    <a class="ui move reveal" id="reveal-box" href="{% url 'collection_detail' collection.id %}">
+                      <div class="visible content">
+                        <img src="{{collection.first_photo}}" class="ui huge image">
+                      </div>
+                      <div class="hidden content">
+                        <img src="{{collection.second_photo}}" class="ui huge image">
+                      </div>
+                    </a>
+                    <span class="collection-name">{{collection.name|lower}}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+<script type="text/javascript">Let static = "{% static 'css' %}"</script>
 </body>
 </html>

@@ -10,28 +10,30 @@
 
 {% block content %}
 
-    <div id="cart-box" class="row">
-        <h2 class="ui header">Your Cart</h2>
-        <main class="eight wide column">
-            <div class="box-element">
-                <div class="cart-row">
-                    <div style="flex:1"></div>
-                    <div style="flex:2"><strong>Item</strong></div>
-                    <div style="flex:1"><strong>Price</strong></div>
-                </div>
-
-                {% for item in items %}
-                <div class="cart-row">
-                    <div style="flex:1"><img class="row-image" src="{{item.product.imageURL}}"></div>
-                    <div style="flex:2">{{item.product.name}}</div>
-                    <div style="flex:1">${{item.product.price|floatformat:2}}</div>
-                    <button data-product="{{item.product.id}}" data-action="remove" class="ui small basic black icon button update-cart" type="submit"><i class="close icon"></i></button>
-                </div>
-                {% endfor %}
+    <div class="ui container row box-container" style="margin-top:75px;">
+        <div id="cart-box" class="box-element">
+            <h2 class="ui header">Your Cart</h2>
+            <div class="cart-row row-flex">
+                <div>Item</div>
+                <div>Price</div>
             </div>
-            <h5 style="float:right">Subtotal: <strong>${{order.get_cart_total|floatformat:2}}</strong></h5>
-            <a style="float: right; margin: 5px" class="ui basic black button" href="{% url 'checkout' %}">Checkout</a>
-        </main>
+            {% for item in items %}
+            <div class="cart-row row-flex">
+                <div class="row-flex">
+                    <div style="cursor: pointer"><a style="color:black" data-product="{{item.product.id}}" data-action="remove" class="update-cart" type="submit"><i class="close icon"></i></a></div>
+                    <a href="{% url 'detail' item.product.id %}"><div class="row-image" style="background-image: url({{item.product.imageURL}})"></div></a>
+                    <a href="{% url 'detail' item.product.id %}" class="cart-product-name">{{item.product.name|upper}}</a>
+                </div>
+                <div>${{item.product.price|floatformat:2}}</div>
+            </div>
+            {% endfor %}
+            <div class="cart-footer">
+                <span style="margin-right: 5px; margin-bottom: 10px;">Subtotal: <strong>${{order.get_cart_total|floatformat:2}}</strong></span>
+                <a class="ui basic black button" href="{% url 'checkout' %}" tabindex="0">
+                    Checkout <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

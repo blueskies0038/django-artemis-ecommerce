@@ -10,34 +10,33 @@
 
 {% block content %}
 
-	<div id="cart-box" class="ui grid container">
-		<div class="ui eight wide column">
-			<div class="box-element">
+	<div class="ui container box-container" style="margin-top:75px;">
+		<div id="checkout-order-box">
+			<div class="checkout-box-element">
 				<form id="form" class="ui form">
-				  <div class="two fields">
-					<div class="required field">
-					  <label>Name</label>
-					  <input placeholder="Name" type="text" name="name">
+					{% csrf_token %}
+					<div class="two fields">
+						<div class="required field">
+							<label>Name</label>
+							<input placeholder="Name" type="text" name="name">
+						</div>
+						<div class="required field">
+							<label>Email</label>
+							<input placeholder="Email" type="email" name="email">
+						</div>
 					</div>
 					<div class="required field">
-					  <label>Email</label>
-					  <input placeholder="Email" type="email" name="email">
+						<label>Shipping Address</label>
+						<div class="field">
+							<input type="text" name="address" placeholder="Street Address">
+						</div>
 					</div>
-				  </div>
-
-				  <div class="required field">
-					  <label>Shipping Address</label>
-					  <div class="field">
-						  <input type="text" name="address" placeholder="Street Address">
-					  </div>
-				  </div>
-
-				  <div class="required fields">
-					  <div class="six wide field">
-						  <input type="text" name="city" placeholder="City">
-					  </div>
-					  <div class="eight wide field">
-						  <select name="state" class="ui fluid dropdown">
+					<div class="three fields">
+						<div class="required field">
+							<input type="text" name="city" placeholder="City">
+						</div>
+						<div class="required field">
+							<select name="state" class="ui fluid dropdown">
 								<option value="">State</option>
 								<option value="AL">Alabama</option>
 								<option value="AK">Alaska</option>
@@ -90,14 +89,14 @@
 								<option value="WV">West Virginia</option>
 								<option value="WI">Wisconsin</option>
 								<option value="WY">Wyoming</option>
-						  </select>
-					  </div>
-					  <div class="field">
-						  <input type="text" name="zipcode" placeholder="Zipcode">
-					  </div>
-				  </div>
+							</select>
+						</div>
+						<div class="required field">
+							<input type="text" name="zipcode" placeholder="Zipcode">
+						</div>
+					</div>
 					<br>
-				  <input id="form-button" class="fluid ui basic black button" type="submit" value="Continue"><br><br>
+					<input id="form-button" class="fluid ui basic black button" type="submit" value="Continue"><br><br>
 				</form>
 				<div class="hidden-content" id="payment-info">
 					<small>Paypal Options</small>
@@ -106,25 +105,38 @@
 					<div id="paypal-button-container"></div>
 				</div>
 			</div>
-		</div>
-
-		<div class="ui eight wide column">
-			<div class="box-element">
+			<div class="checkout-box-element">
 				<hr>
 				<h3>Order Summary</h3>
 				<hr>
 				{% for item in items %}
 				<div class="cart-row">
-					<div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}"></div>
-					<div style="flex:2"><p>{{item.product.name}}</p></div>
-					<div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
+					<div style="flex:1"><div class="row-image" style="background-image: url({{ item.product.imageURL }})"></div></div>
+					<div style="flex:1"><p class="cart-product-name">{{item.product.name|upper}}</p></div>
+					<div style="flex:"><p>${{item.product.price|floatformat:2}}</p></div>
 				</div>
 				{% endfor %}
-
-				<div style="float:left; color:#b3b3b3">Subtotal:</div>
-				<div style="float:right; color:#b3b3b3">${{order.get_cart_total|floatformat:2}}</div>
-				<div>${{order.get_tax|floatformat:2}}</div>
-				<div>{{order.get_shipping|floatformat:2}}</div>
+				<div class="order-summary-row">
+					<div style="flex:1;">Subtotal:</div>
+					<div>${{order.get_cart_total|floatformat:2}}</div>
+				</div>
+				<div class="order-summary-row">
+					<div style="flex:1;">Tax:</div>
+					<div>${{order.get_tax|floatformat:2}}</div>
+				</div>
+				<div class="order-summary-row">
+					<div style="flex:1;">Shipping:</div>
+					{% if order.get_shipping == 0 %}
+					<div>---</div>
+					{% else %}
+					<div>{{order.get_shipping|floatformat:2}}</div>
+					{% endif %}
+				</div>
+				<hr>
+				<div style="color:black" class="order-summary-row">
+					<div style="flex:1;">Total:</div>
+					<div>${{order.get_final_amount|floatformat:2}}</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -132,7 +144,7 @@
 
     <script src="https://www.paypal.com/sdk/js?client-id=AbRx71DZut2_Ho0DwlIAWecu1XRiG_Sxvw6Dke412uRe7OHlKjBVjlJ9KkdkHEz25Wcx5sv3I-9KV3BJ&currency=USD&disable-funding=credit"></script>
     <script>
-        var total = '{{order.get_cart_total}}'
+        var total = '{{order.get_final_amount}}'
         // Render the PayPal button into #paypal-button-container
         paypal.Buttons({
 
@@ -166,12 +178,16 @@
 
     <script type="text/javascript">
         var form = document.getElementById('form')
+
+        csrftoken = form.getElementsByTagName("input")[0].value
+
 		form.addEventListener('submit', function(e){
 	    	e.preventDefault()
 	    	console.log('Form Submitted...')
 	    	document.getElementById('form-button').classList.add("hidden-content");
 	    	document.getElementById('payment-info').classList.remove("hidden-content");
 	    })
+
         /*
         document.getElementById('make-payment').addEventListener('click', function(e){
             submitFormData()
@@ -210,11 +226,12 @@
 	    		method:'POST',
 	    		headers:{
 	    			'Content-Type':'application/json',
-	    			'X-CSRFToken':csrftoken,
+	    			'X-CSRFToken': csrftoken,
 	    		},
 	    		body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}),
 
 	    	})
+
 	    	.then((response) => response.json())
 	    	.then((data) => {
 				console.log('Success:', data);
@@ -223,7 +240,7 @@
 				cart = {}
 				document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
 
-				window.location.href = "{% url 'all' %}"
+				window.location.href = "{% url 'store' %}"
             })
         }
     </script>

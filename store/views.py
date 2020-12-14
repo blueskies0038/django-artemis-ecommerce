@@ -1,12 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import JsonResponse
+from django.core.paginator import Paginator, EmptyPage
 import json
 import datetime
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
-
-
-# Create your views here.
 
 
 def store(request):
@@ -16,8 +15,11 @@ def store(request):
     order = data['order']
     items = data['items']
 
-    context = {'cartItems': cartItems}
+    slides = HomeSlide.objects.all()
+    context = {'cartItems': cartItems, 'slides': slides, }
+    messages.success(request, "Welcome to ARTEMIS")
     return render(request, 'store/store.html', context)
+
 
 def all(request):
     data = cartData(request)
@@ -26,9 +28,18 @@ def all(request):
     order = data['order']
     items = data['items']
 
-    products = Product.objects.all()
-    context = {'products': products, 'cartItems': cartItems}
-    return render(request, 'store/all.html', context)
+    page = request.GET.get("page", 1)
+    products_list = Product.objects.all()
+    paginator = Paginator(products_list, 12, orphans=3)
+    try:
+        products = paginator.page(int(page))
+        context = {'products': products, 'cartItems': cartItems}
+        return render(request, 'store/all.html', context)
+    except EmptyPage:
+        products = paginator.page(1)
+        context = {'products': products, 'cartItems': cartItems}
+        return redirect('store/all.html', context)
+
 
 def cart(request):
     data = cartData(request)
@@ -36,6 +47,13 @@ def cart(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
+
+    """for item in items:
+        product_id = int(item["product"]["id"])
+        product = Product.objects.get(id=product_id)
+        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+        if not product.active:
+            orderItem.delete()"""
 
     context = {'items': items, 'order': order, 'cartItems': cartItems}
     return render(request, 'store/cart.html', context)
@@ -48,8 +66,7 @@ def checkout(request):
     order = data['order']
     items = data['items']
 
-
-    context = {'items': items, 'order': order, 'cartItems': cartItems,}
+    context = {'items': items, 'order': order, 'cartItems': cartItems, }
     return render(request, 'store/checkout.html', context)
 
 
@@ -66,13 +83,13 @@ def updateItem(request):
 
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
-    if action == 'add':
+    if action == 'add' and product.active:
         orderItem.quantity = 1
         orderItem.save()
     elif action == 'remove':
         orderItem.delete()
 
-    return JsonResponse('Item was added', safe=False)
+    return JsonResponse('Item was updated', safe=False)
 
 
 def processOrder(request):
@@ -84,7 +101,15 @@ def processOrder(request):
     total = float(data['form']['total'])
     order.transaction_id = transaction_id
 
-    if total == float(order.get_cart_total):
+    if total == float(order.get_final_amount):
+        for o in order.get_order_items:
+            ord_id = o.id
+            item = OrderItem.objects.get(id=ord_id)
+            print(str(o), str(item.product))
+            if item.product.amount == 1:
+                item.product.active = False
+            else:
+                item.product.amount -= 1
         order.complete = True
     order.save()
 
@@ -99,35 +124,15 @@ def processOrder(request):
 
     return JsonResponse('Payment submitted..', safe=False)
 
-from django.core.mail import send_mail
-from django.conf import settings
-from django.template.loader import render_to_string
-
-def success(request, uid):
-    data = json.loads(request.body)
-    customer, order = guestOrder(request, data)
-    username = customer.name
-    useremail = customer.email
-
-    template = render_to_string('base/email.html', {'name': username})
-    email = send_mail(
-        'Shop Artemis Order Confirmation',
-        template,
-        settings.EMAIL_HOST_USER,
-        [useremail],
-        )
-
-    email.fail_silently=False
-    email.send()
-
-    product = Product.objects.get(id=uid)
-    context = {'product':product}
-
-    return render(request, 'store/sent.html', context)
-
 
 def about(request):
-    context = {}
+    data = cartData(request)
+
+    cartItems = data['cartItems']
+    order = data['order']
+    items = data['items']
+
+    context = {'cartItems': cartItems}
     return render(request, 'store/about.html', context)
 
 
@@ -138,13 +143,18 @@ def detail(request, product_id):
     order = data['order']
     items = data['items']
 
-    product = get_object_or_404(Product, pk=product_id)
-    context = {'product': product, 'cartItems': cartItems}
-    return render(request, 'store/detail.html', context)
+    try:
+        product = get_object_or_404(Product, pk=product_id)
+        context = {'product': product, 'cartItems': cartItems}
+        return render(request, 'store/detail.html', context)
+    except:
+        return render(reverse("all"))
 
 
 def slider(request):
     product = Product.object.first()
     context = {'product': product}
     return render(request, 'store/detail.html', context)
+
+
 
