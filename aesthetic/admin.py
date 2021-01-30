@@ -5,9 +5,12 @@ from .models import *
 class PhotoInline(admin.TabularInline):
     model = CollectionImage
 
+class PreviewInline(admin.TabularInline):
+    model = CollectionPreview
+
 @admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):
-    inlines = (PhotoInline,)
+    inlines = (PreviewInline, PhotoInline,)
 
 @admin.register(CollectionImage)
 class CollectionImageAdmin(admin.ModelAdmin):

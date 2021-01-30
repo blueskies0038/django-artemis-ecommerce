@@ -11,16 +11,9 @@
 <body>
 {% block content %}
 
-    <div class="ui container banner-area" style="margin-top: 75px; z-index: 2">
-        {% for photo in slides %}
-            <div class="single-banner">
-                <div class="banner-img">
-                    <img src={{photo.imageURL}}>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+    <div class="ui container banner-area" style="z-index: 10; background-image: url({{homeImage.imageURL}});">
 
+    </div>
 
     <div class="ui container" style="margin-top: -25px; text: 10px">
         <ul class="juicer-feed" data-feed-id="shop-_-artemis"><h1 class="referral"><a href="https://www.juicer.io">Powered by Juicer.io</a></h1></ul>
@@ -28,8 +21,6 @@
 
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/slide.js' %}"></script>
 {% endblock %}
 </body>
 </html>

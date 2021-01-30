@@ -24,6 +24,18 @@ class CollectionPreview(models.Model):
     name = models.CharField(max_length=30)
     image = models.ImageField()
 
+    def __str__(self):
+        return self.name
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        print('URL', url)
+        return url
+
 class Collection(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -31,17 +43,3 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
-
-    def first_photo(self):
-        try:
-            photo, = self.preview_images.all()[:1]
-            return photo.image.url
-        except ValueError:
-            return None
-
-    def second_photo(self):
-        try:
-            photo, = self.preview_images.all()[1:2]
-            return photo.image.url
-        except ValueError:
-            return None

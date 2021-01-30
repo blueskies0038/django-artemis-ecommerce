@@ -10,26 +10,24 @@
 
 {% block content %}
 
-    <div class="ui container box-container" style="margin-top: 75px">
-        <div class="collection-display">
-            {% for collection in collections %}
-                <div class="collection-box">
-                    <a class="ui move reveal" id="reveal-box" href="{% url 'collection_detail' collection.id %}">
-                      <div class="visible content">
-                        <img src="{{collection.first_photo}}" class="ui huge image">
-                      </div>
-                      <div class="hidden content">
-                        <img src="{{collection.second_photo}}" class="ui huge image">
-                      </div>
-                    </a>
-                    <span class="collection-name">{{collection.name|lower}}</span>
-                </div>
-            {% endfor %}
+    <div class="ui container box-container">
+        {% for preview in collection_previews %}
+        <div class="single-banner">
+            <div class="banner-img">
+                <a href="{% url 'collection_detail' preview.collection.id %}">
+                    <img src={{preview.imageURL}}>
+                </a>
+            </div>
         </div>
+        {% endfor %}
     </div>
 
-{% endblock %}
-
 <script type="text/javascript">Let static = "{% static 'css' %}"</script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script type="text/javascript" src="{% static 'js/slide.js' %}"></script>
+
+{% endblock %}
 </body>
 </html>

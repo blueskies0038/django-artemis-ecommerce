@@ -50,7 +50,7 @@ class OrderAdmin(admin.ModelAdmin):
         return obj.customer.email
     get_customer_email.short_description = "Email"
 
-@admin.register(HomeSlide)
+@admin.register(HomeImage)
 class SlideAdmin(admin.ModelAdmin):
     list_display = ("__str__", "get_thumbnail",)
     def get_thumbnail(self, obj):

@@ -131,13 +131,11 @@ class ShippingAddress(models.Model):
         full_address = f"{self.address} {self.city}, {self.state}, {self.zipcode}"
         return full_address
 
-class HomeSlide(models.Model):
-    name = models.CharField(max_length=100, blank=True)
-    caption = models.TextField(blank=True)
+class HomeImage(models.Model):
     image = models.ImageField()
 
     def __str__(self):
-        return self.name
+        return "Homepage Picture"
 
     @property
     def imageURL(self):

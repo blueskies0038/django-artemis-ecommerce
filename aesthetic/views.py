@@ -15,8 +15,8 @@ def collections(request):
     order = data['order']
     items = data['items']
 
-    collections = Collection.objects.all()
-    context = {'cartItems': cartItems, 'collections': collections}
+    collection_previews = CollectionPreview.objects.all()
+    context = {'cartItems': cartItems, 'collection_previews': collection_previews}
     return render(request, 'aesthetic/collections.html', context)
 
 def detail(request, collection_id):

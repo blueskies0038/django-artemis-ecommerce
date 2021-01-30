@@ -71,31 +71,34 @@
         </ul>
     {% endif %}
 
-    <div class="ui container">
-        <nav class="ui large fixed borderless menu">
-            <ul class="nav-links">
+    <div class="ui container navbar">
+        <nav>
+            <ul>
                 <li><a href="{% url 'store' %}">ARTEMIS</a></li>
                 <li><a href="{% url 'all' %}">Shop</a></li>
                 <li><a href="{% url 'collections' %}">Collections</a></li>
                 <li><a href="{% url 'about' %}">About Us</a></li>
             </ul>
-            <div class="burger">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </div>
-            <div class="right menu">
-                <a class="item" href="{% url 'cart' %}">
-                    <div class="ui animated basic button" tabindex="0">
-                        <div class="visible content">{{cartItems}}</div>
-                        <div class="hidden content">
-                            <i class="shopping cart icon"></i>
-                        </div>
-                    </div>
-                  </a>
-            </div>
         </nav>
     </div>
+
+    <!--
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <div class="right menu">
+            <a class="item" href="{% url 'cart' %}">
+                <div class="ui animated basic button" tabindex="0">
+                    <div class="visible content">{{cartItems}}</div>
+                    <div class="hidden content">
+                        <i class="shopping cart icon"></i>
+                    </div>
+                </div>
+              </a>
+        </div>
+    -->
 
     {% block content %}
 
