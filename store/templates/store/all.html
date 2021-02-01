@@ -11,7 +11,7 @@
 
 {% block content %}
 
-    <main class="ui centered container" id="all-product-display">
+    <div class="ui centered container" id="all-product-display">
         <div class="product-display">
             {% for product in products.object_list %}
                 <div class="display-box">
@@ -50,7 +50,7 @@
                 <a href="?page={{products.next_page_number}}"><i class="fas fa-arrow-right fa-md" style="color: black"></i></a>
             {% endif %}
         </div>
-    </main>
+    </div>
 
     <!--<main class="ui centered container" style="margin-top:75px;">
         <div class="product-display">
