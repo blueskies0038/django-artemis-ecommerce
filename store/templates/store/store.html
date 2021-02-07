@@ -11,8 +11,14 @@
 <body>
 {% block content %}
 
-    <div class="ui container homepage" style="background-image: url({{homeImage.imageURL}});">
+    <div class="ui container">
+        <img class="home-image" src="{{homeImage.imageURL}}">
+        <div class="home-img-overlay">
 
+            <a class="ui inverted basic black button" href="{% url 'all' %}">
+                    SHOP
+            </a>
+        </div>
     </div>  
 
     <div class="ui container" style="margin-top: -25px; text: 10px">
