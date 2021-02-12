@@ -2,13 +2,15 @@
 <html lang="en">
 {% extends 'store/main.html' %}
 {% load static %}
+{% block content %}
+
 <head>
-    <meta charset="UTF-8">
     <title>Collections</title>
+    <link href="https://assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
 
-{% block content %}
 
     <div class="ui container banner-area">
         {% for preview in collection_previews %}
