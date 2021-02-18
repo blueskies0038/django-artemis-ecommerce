@@ -15,8 +15,9 @@ def store(request):
     order = data['order']
     items = data['items']
 
-    homeImage = HomeImage.objects.all()[0]
-    context = {'cartItems': cartItems, 'homeImage': homeImage,}
+    homeImage = HomeImage.objects.last()
+    featured = FeaturedProduct.objects.order_by('pk')[0:3]
+    context = {'cartItems': cartItems, 'homeImage': homeImage, 'featuredProducts': featured,}
     messages.success(request, "Welcome to ARTEMIS")
     return render(request, 'store/store.html', context)
 

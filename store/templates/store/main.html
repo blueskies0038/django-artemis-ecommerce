@@ -71,8 +71,8 @@
         </ul>
     {% endif %}
 
-    <div class="head">
-        <div class="navbar" id="nav">
+    <div class="head" id="head">
+        <div class="navbar">
             <ul class="nav-links">
                 <li><a href="{% url 'store' %}">ARTEMIS</a></li>
                 <li><a href="{% url 'all' %}">Shop</a></li>
@@ -80,14 +80,11 @@
                 <li><a href="{% url 'about' %}">About Us</a></li>
             </ul>
         </div>
-        <div class="burger" id="burger">
+        <div class="burger">
             <div class="line1"></div>
             <div class="line2"></div>
             <div class="line3"></div>
         </div>
-    </div>
-
-    <!--
         <div class="right menu">
             <a class="item" href="{% url 'cart' %}">
                 <div class="ui animated basic button" tabindex="0">
@@ -98,7 +95,8 @@
                 </div>
               </a>
         </div>
-    -->
+    </div>
+
 
     {% block content %}
 

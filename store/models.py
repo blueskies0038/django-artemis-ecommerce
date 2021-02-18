@@ -146,3 +146,10 @@ class HomeImage(models.Model):
         print('URL', url)
         return url
 
+class FeaturedProduct(models.Model):
+    product = models.ForeignKey(Product, related_name="product", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.product.name
+
+

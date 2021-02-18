@@ -12,10 +12,18 @@
 {% block content %}
 
     <div class="ui container">
-        <img class="home-image" src="{{homeImage.imageURL}}">
-        <div class="home-img-overlay">
-        </div>
-    </div>  
+        <img class="home-image" src={{homeImage.imageURL}}>
+    </div>
+
+    <div class="ui container featured-wrapper">
+        {% for featured in featuredProducts %}
+            <div class="polaroid">
+                <a href="{% url 'detail' featured.product.id %}" title="{{featured.product.name}}">
+                    <div style="background-image: url({{featured.product.imageURL}});" title="{{featured.product.name}}"></div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
 
     <div class="ui container" style="margin-top: -25px; text: 10px; z-index: 1">
         <ul class="juicer-feed" data-feed-id="shop-_-artemis"><h1 class="referral"><a href="https://www.juicer.io">Powered by Juicer.io</a></h1></ul>
