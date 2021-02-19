@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{% static 'css/semantic.css' %}">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Artemis</title>
     <script type="text/javascript">
@@ -79,21 +78,11 @@
                 <li><a href="{% url 'collections' %}">Collections</a></li>
                 <li><a href="{% url 'about' %}">About Us</a></li>
             </ul>
-        </div>
-        <div class="burger">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
-        </div>
-        <div class="right menu">
-            <a class="item" href="{% url 'cart' %}">
-                <div class="ui animated basic button" tabindex="0">
-                    <div class="visible content">{{cartItems}}</div>
-                    <div class="hidden content">
-                        <i class="shopping cart icon"></i>
-                    </div>
-                </div>
-              </a>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
         </div>
     </div>
 

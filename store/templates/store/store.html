@@ -15,14 +15,18 @@
         <img class="home-image" src={{homeImage.imageURL}}>
     </div>
 
-    <div class="ui container featured-wrapper">
-        {% for featured in featuredProducts %}
-            <div class="polaroid">
-                <a href="{% url 'detail' featured.product.id %}" title="{{featured.product.name}}">
-                    <div style="background-image: url({{featured.product.imageURL}});" title="{{featured.product.name}}"></div>
-                </a>
-            </div>
-        {% endfor %}
+    <div class="ui container">
+        <h1 id="featured-heading">Featured Items</h1>
+        <div class="featured-item-wrapper">
+            {% for featured in featuredProducts %}
+                <div class="polaroid">
+                    <a href="{% url 'detail' featured.product.id %}">
+                        <div style="background-image: url({{featured.product.imageURL}});" title="{{featured.product.name}}"></div>
+                        <p class="featured-item-name">{{featured.product.name}}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="ui container" style="margin-top: -25px; text: 10px; z-index: 1">
