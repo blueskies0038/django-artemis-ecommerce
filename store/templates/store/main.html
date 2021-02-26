@@ -70,10 +70,16 @@
         </ul>
     {% endif %}
 
+    <div class="head ui container" id="logo">
+        <div class="logo">
+            <a class="brand" href="{% url 'store' %}">ARTEMIS</a>
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+    </div>
+
     <div class="head" id="head">
         <div class="navbar">
             <ul class="nav-links">
-                <li><a href="{% url 'store' %}">ARTEMIS</a></li>
                 <li><a href="{% url 'all' %}">Shop</a></li>
                 <li><a href="{% url 'collections' %}">Collections</a></li>
                 <li><a href="{% url 'about' %}">About Us</a></li>
